@@ -4,11 +4,10 @@ import {
   Inject,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Db, Document, ObjectId, WithId } from 'mongodb';
+import { Db, ObjectId } from 'mongodb';
 
 import { User } from 'src/modules/user/entities/user.entity';
-import { RegisterUserDto, LoginUserDto } from './dto';
-import { ChangePasswordDto } from './dto/update-password';
+import { RegisterUserDto, LoginUserDto, ChangePasswordDto } from './dto';
 import { Role } from './auth.interface';
 import { SupabaseClient } from '@supabase/supabase-js';
 
@@ -100,25 +99,33 @@ export class AuthService {
 
   async verifyToken(token: string) {
     const usersCollection = this.db.collection('users');
-    let user: WithId<Document>;
-    try {
-      user = await usersCollection.findOne({ _id: new ObjectId(token) });
-    } catch (err) {
-      throw new UnauthorizedException(err.message);
+    const {
+      data: { user },
+      error,
+    } = await this.supabase.auth.getUser(token);
+
+    if (error) {
+      throw new UnauthorizedException(error.message);
+    }
+    const currentUser = await usersCollection.findOne({
+      supabaseId: user.id,
+    });
+    if (!currentUser) {
+      throw new UnauthorizedException('User not found');
     }
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
     const userEntity = new User(
-      user._id.toString(),
-      user.name,
-      user.surname,
-      user.phone,
-      user.email,
-      user.supabaseUid,
-      user.role as Role,
-      user.creatorId,
+      currentUser._id.toString(),
+      currentUser.name,
+      currentUser.surname,
+      currentUser.phone,
+      currentUser.email,
+      currentUser.supabaseUid,
+      currentUser.role as Role,
+      currentUser.creatorId,
     );
     return userEntity;
   }

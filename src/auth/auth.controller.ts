@@ -22,8 +22,12 @@ import { Request } from 'express';
 import { Public, ReqUser } from 'src/common/decorators';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthService } from './auth.service';
-import { RegisterUserDto, LoginUserDto } from './dto';
-import { ChangePasswordDto, ForgotPasswordDto } from './dto/update-password';
+import {
+  RegisterUserDto,
+  LoginUserDto,
+  ChangePasswordDto,
+  ForgotPasswordDto,
+} from './dto';
 import { Role } from './auth.interface';
 
 @ApiTags('auth')
