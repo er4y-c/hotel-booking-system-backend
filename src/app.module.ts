@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { HotelModule } from './modules/hotel/hotel.module';
 import config from './shared/config';
 
 @Module({
@@ -14,6 +15,7 @@ import config from './shared/config';
       envFilePath: `.env.${process.env.NODE_ENV}.local`,
     }),
     UserModule,
+    HotelModule,
   ],
   controllers: [],
   providers: [],
