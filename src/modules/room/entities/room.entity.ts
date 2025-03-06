@@ -5,4 +5,5 @@ export class Room {
   category: RoomCategory;
   basePrice: number;
   hotelId: string;
+  roomNumber: string;
 }
