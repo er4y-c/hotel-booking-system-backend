@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { HotelModule } from './modules/hotel/hotel.module';
+import { RoomModule } from './modules/room/room.module';
 import config from './shared/config';
 
 @Module({
@@ -16,6 +17,7 @@ import config from './shared/config';
     }),
     UserModule,
     HotelModule,
+    RoomModule,
   ],
   controllers: [],
   providers: [],

@@ -5,9 +5,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import config from './shared/config';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
-  console.log(`.env.${process.env.NODE_ENV}.local`);
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(
     new ValidationPipe({
@@ -19,6 +19,7 @@ async function bootstrap() {
       },
     }),
   );
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   app.set('query parser', 'extended');
 
