@@ -33,7 +33,7 @@ bun start:dev
 
 ## System Architecture
 
-![Dashboard Image](./assets/system-architecture.svg)
+![System Architecture](./assets/system-architecture.svg)
 
 ## Documentation
 
